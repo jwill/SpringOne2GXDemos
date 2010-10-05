@@ -1,0 +1,4 @@
+GriffonMongo/staging/*
+GriffonMongo/application.properties
+GriffonTalkWebsockets/application.properties
+GriffonTalkWiimote/application.properties
