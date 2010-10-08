@@ -7,3 +7,14 @@ root {
         view = '*'
     }
 }
+root.'MiglayoutGriffonAddon'.addon=true
+
+root.'griffon.builder.macwidgets.MacWidgetsBuilder'.view = '*'
+
+jx {
+    'groovy.swing.SwingXBuilder' {
+        view = '*'
+    }
+}
+
+root.'GlazedlistsGriffonAddon'.addon=true
