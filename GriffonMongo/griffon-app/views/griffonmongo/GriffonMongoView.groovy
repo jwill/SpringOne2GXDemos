@@ -31,21 +31,24 @@ application(title: 'GriffonMongo',
 		jxtaskPaneContainer() {
 			taskPane(id:'conxPane', title:'Connections', layout:new MigLayout()) {
 				scrollPane() {
-				panel(id:'conxIcons', layout: new MigLayout()) {
-					toggleButton(text:'Sample Conx', verticalTextPosition:SwingConstants.BOTTOM, horizontalTextPosition:SwingConstants.CENTER, icon:imageIcon(getClass().getResource('/db.png')))
-					toggleButton(text:'Sample Conx', verticalTextPosition:SwingConstants.BOTTOM, horizontalTextPosition:SwingConstants.CENTER, icon:imageIcon(getClass().getResource('/db.png')))
-				}
+					panel(id:'conxIcons', layout: new MigLayout())
 				}
 				button(text:'Add', constraints:'newline, cell 0 1 ', actionPerformed: {view.conx.setVisible(true)})
-				button(text:'Remove', constraints:'cell 0 1', actionPeformed:{controller.removeConnection()})
+				button(text:'Remove', constraints:'cell 0 1', actionPerformed:{controller.removeConnection()})
 			}
 			taskPane(id:'dbPane', title:'Databases', layout:new MigLayout()) {
+				scrollPane() {
+					panel(id:'dbIcons', layout: new MigLayout())
+				}
 				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeDB.setVisible(true)})
-				button(text:'Drop', constraints:'cell 0 1', actionPeformed:{controller.dropDatabase()})
+				button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropDatabase()})
 			}
 			taskPane(id:'collPane', title:'Collections', layout:new MigLayout()) {
+				scrollPane() {
+					panel(id:'collIcons', layout: new MigLayout())
+				}
 				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeColl.setVisible(true)})
-				button(text:'Drop', constraints:'cell 0 1', actionPeformed:{controller.dropCollection()})
+				button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropCollection()})
 			}
 		}
     }

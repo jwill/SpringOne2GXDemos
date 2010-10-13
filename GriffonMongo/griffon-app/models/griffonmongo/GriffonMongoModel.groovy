@@ -11,4 +11,9 @@ class GriffonMongoModel {
    
    def jsonProps
    def defaultPropertiesFile = "mongo.json"
+   
+   def mongo
+   def connections = [:]
+   def databases = [:]
+   def collections = [:]
 }

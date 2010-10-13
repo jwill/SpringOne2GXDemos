@@ -11,9 +11,10 @@ application {
 mvcGroups {
     // MVC Group for "GriffonMongo"
     'GriffonMongo' {
+        view = 'griffonmongo.GriffonMongoView'
         model = 'griffonmongo.GriffonMongoModel'
         controller = 'griffonmongo.GriffonMongoController'
-        view = 'griffonmongo.GriffonMongoView'
+        
     }
 
 }
