@@ -1,8 +1,25 @@
 package griffonmongo
+import java.awt.Color
+import javax.swing.SwingConstants
+import org.jdesktop.swingx.painter.*
+import net.miginfocom.swing.MigLayout
+import org.jdesktop.swingx.border.DropShadowBorder
+import static com.explodingpixels.macwidgets.MacIcons.*
+
+private makeTitlePainter() {
+	def comp = jxcompoundPainter() {
+		jxmattePainter(fillPaint:Color.BLUE)
+		jxglossPainter(paint:new Color(1.0f,1.0f,1.0f,0.2f), position:GlossPainter.GlossPosition.TOP)
+	}
+	return comp
+}
+
+build(AddConxView)
 
 application(title: 'GriffonMongo',
-  //size: [320,480],
-  pack: true,
+  size: [640,480],
+  //pack: true,
+  layout: new MigLayout(),
   //location: [50,50],
   locationByPlatform:true,
   iconImage: imageIcon('/griffon-icon-48x48.png').image,
@@ -10,5 +27,37 @@ application(title: 'GriffonMongo',
                imageIcon('/griffon-icon-32x32.png').image,
                imageIcon('/griffon-icon-16x16.png').image]) {
     // add content here
-    label('Content Goes Here') // deleteme
+    jxtitledPanel(title:'Settings', border:new DropShadowBorder(Color.BLACK,15), constraints:'w 30%, h 100%')  {
+		jxtaskPaneContainer() {
+			taskPane(id:'conxPane', title:'Connections', layout:new MigLayout()) {
+				scrollPane() {
+				panel(id:'conxIcons', layout: new MigLayout()) {
+					toggleButton(text:'Sample Conx', verticalTextPosition:SwingConstants.BOTTOM, horizontalTextPosition:SwingConstants.CENTER, icon:imageIcon(getClass().getResource('/db.png')))
+					toggleButton(text:'Sample Conx', verticalTextPosition:SwingConstants.BOTTOM, horizontalTextPosition:SwingConstants.CENTER, icon:imageIcon(getClass().getResource('/db.png')))
+				}
+				}
+				button(text:'Add', constraints:'newline, cell 0 1 ', actionPerformed: {view.conx.setVisible(true)})
+				button(text:'Remove', constraints:'cell 0 1', actionPeformed:{controller.removeConnection()})
+			}
+			taskPane(id:'dbPane', title:'Databases', layout:new MigLayout()) {
+				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeDB.setVisible(true)})
+				button(text:'Drop', constraints:'cell 0 1', actionPeformed:{controller.dropDatabase()})
+			}
+			taskPane(id:'collPane', title:'Collections', layout:new MigLayout()) {
+				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeColl.setVisible(true)})
+				button(text:'Drop', constraints:'cell 0 1', actionPeformed:{controller.dropCollection()})
+			}
+		}
+    }
+    jxtitledPanel(title:'Query Results', border:new DropShadowBorder(Color.BLACK,15), constraints:'w !, h 100%') {
+        panel(layout:new MigLayout()) {
+	        hbox(constraints:'newline') {
+				textField(id:'commandField', columns:40)
+				button(text:'Run', actionPerformed:{controller.runScript(commandField.text)})
+	        }
+	        scrollPane(constraints:'newline, w 100%, h 100%') {
+				jxlist(id:'results')
+	        }      
+        }  
+    }
 }

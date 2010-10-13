@@ -1,7 +1,14 @@
 package griffonmongo
 
 import groovy.beans.Bindable
+import javax.swing.ButtonGroup
 
 class GriffonMongoModel {
-   // @Bindable String propName
+   // button groups
+   def conxBtnGroup = new ButtonGroup()
+   def dbBtnGroup = new ButtonGroup()
+   def collBtnGroup = new ButtonGroup()
+   
+   def jsonProps
+   def defaultPropertiesFile = "mongo.json"
 }

@@ -17,3 +17,5 @@ log4j {
     }
     additivity.StackTrace=false
 }
+
+griffon.neodatis.injectInto = ['controller']

@@ -124,6 +124,7 @@ griffon.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.5'
         runtime 'com.google.code:morphia:0.91'
+        runtime 'org.json:json:20090211'
     }
 }
 
