@@ -21,6 +21,7 @@ public class MongoUtils {
 	public static void decorateCollection(DBCollection collection) {
 		collection.metaClass.methodMissing = {String methodName, args ->
 			def operators = [
+				"Equals":'$eq',				
 				"LessThan":'$lt',
 				"LessThanEquals":'$lte',
 				"GreaterThan":'$gt',

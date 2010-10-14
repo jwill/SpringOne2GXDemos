@@ -1,4 +1,5 @@
 package griffonmongo
+import MongoUtils
 import org.json.*
 import com.mongodb.*
 import com.gmongo.GMongo
@@ -96,7 +97,7 @@ class GriffonMongoController {
     def openDB = { name ->
 		// db already open, get the collections
 		def db = model.databases.get(name)
-		def collNames = db.getCollectionNames()
+		def collNames = db?.getCollectionNames()
 		view.collIcons.clear()
 		model.collections = [:]
 		collNames.each { n ->
@@ -140,11 +141,20 @@ class GriffonMongoController {
 			binding.setVariable(it, model.databases.get(it))
 		}
 		model.collections.keySet().each {
-			binding.setVariable(it, model.collections.get(it))
-		}
+			def coll = model.collections.get(it)
+			MongoUtils.decorateCollection(coll)
+			binding.setVariable(it, coll)
+		} 
+		def os = new ByteArrayOutputStream()
+		def stream = new PrintStream(os)
+		System.setOut(stream)
+		
+		binding.setVariable("mongo",model.mongo)
+		
       doOutside {
          try {
-            new GroovyShell(binding).evaluate(script)
+            def result = new GroovyShell(binding).evaluate(script)
+            model.result = script+ '\n' + os.toString() + '\n' + result
          } catch(x) {x.printStackTrace()}
       }
    }

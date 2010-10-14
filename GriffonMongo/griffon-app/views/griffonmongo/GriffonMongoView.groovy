@@ -55,11 +55,11 @@ application(title: 'GriffonMongo',
     jxtitledPanel(title:'Query Results', border:new DropShadowBorder(Color.BLACK,15), constraints:'w !, h 100%') {
         panel(layout:new MigLayout()) {
 	        hbox(constraints:'newline') {
-				textField(id:'commandField', columns:40)
+				textArea(id:'commandField', columns:40, rows:2)
 				button(text:'Run', actionPerformed:{controller.runScript(commandField.text)})
 	        }
 	        scrollPane(constraints:'newline, w 100%, h 100%') {
-				jxlist(id:'results')
+				textArea(id:'results', text:bind{model.result}, editable:false)
 	        }      
         }  
     }
