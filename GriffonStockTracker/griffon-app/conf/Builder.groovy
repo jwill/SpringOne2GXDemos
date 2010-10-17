@@ -7,3 +7,14 @@ root {
         view = '*'
     }
 }
+jx {
+    'groovy.swing.SwingXBuilder' {
+        view = '*'
+    }
+}
+
+root.'GlazedlistsGriffonAddon'.addon=true
+
+root.'SilkiconsGriffonAddon'.addon=true
+
+root.'MiglayoutGriffonAddon'.addon=true
