@@ -18,3 +18,5 @@ root.'GlazedlistsGriffonAddon'.addon=true
 root.'SilkiconsGriffonAddon'.addon=true
 
 root.'MiglayoutGriffonAddon'.addon=true
+
+root.'SwingxWsGriffonAddon'.addon=true

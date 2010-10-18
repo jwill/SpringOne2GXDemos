@@ -1,9 +1,9 @@
 package griffonstocktracker
 import net.miginfocom.swing.MigLayout
+import org.jdesktop.swingx.decorator.HighlighterFactory
 
 application(title: 'GriffonStockTracker',
-  size: [400,400],
-  pack: true,
+  size: [425,350],
   layout: new MigLayout(),
   //location: [50,50],
   locationByPlatform:true,
@@ -12,10 +12,14 @@ application(title: 'GriffonStockTracker',
                imageIcon('/griffon-icon-32x32.png').image,
                imageIcon('/griffon-icon-16x16.png').image]) {
 	panel (layout:new MigLayout()){
-	jxtable(id:'symbolsTable', constraints:'w 160px')
-	panel(layout:new MigLayout(), constraints:'w !') {
-		label('Value:')
-		label(id:'txtCompanyName')
+	scrollPane() {
+		table(id:'symbolsTable', constraints:'w 160px', model:model.stockModel, selectionModel:model.selectionModel)
+	}
+	panel(layout:new MigLayout(), constraints:'w !, h 100%') {
+		label('Name:')
+		label(id:'txtName')
+		label('Value:', constraints:'newline')
+		label(id:'txtValue')
 		label('Change:', constraints:'newline')
 		label(id:'txtChange')
 		label('Open:', constraints:'newline')
@@ -32,8 +36,8 @@ application(title: 'GriffonStockTracker',
     panel(layout:new MigLayout(), constraints:'newline') {
 		label("Symbol")
 		textField(id:"stock", columns:10)
-		button(icon:silkIcon(icon:'add'))
-		button(icon:silkIcon(icon:'delete'))
+		button(icon:silkIcon(icon:'add'), actionPerformed:controller.addSymbol)
+		button(icon:silkIcon(icon:'delete'), actionPerformed:controller.removeSymbol)
     }
     jxstatusBar(){
 		label(id: 'statusLabel', 'test')

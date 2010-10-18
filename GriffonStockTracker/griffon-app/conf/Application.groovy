@@ -12,8 +12,9 @@ mvcGroups {
     // MVC Group for "GriffonStockTracker"
     'GriffonStockTracker' {
         model = 'griffonstocktracker.GriffonStockTrackerModel'
-        controller = 'griffonstocktracker.GriffonStockTrackerController'
         view = 'griffonstocktracker.GriffonStockTrackerView'
+        controller = 'griffonstocktracker.GriffonStockTrackerController'
+        
     }
 
 }
