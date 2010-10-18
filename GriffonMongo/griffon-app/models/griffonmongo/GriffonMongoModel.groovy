@@ -9,6 +9,7 @@ class GriffonMongoModel {
    def dbBtnGroup = new ButtonGroup()
    def collBtnGroup = new ButtonGroup()
    
+   @Bindable result
    def jsonProps
    def defaultPropertiesFile = "mongo.json"
    

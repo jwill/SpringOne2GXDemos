@@ -29,30 +29,30 @@ application(title: 'GriffonMongo',
     // add content here
     jxtitledPanel(title:'Settings', border:new DropShadowBorder(Color.BLACK,15), constraints:'w 30%, h 100%')  {
 		jxtaskPaneContainer() {
-			taskPane(id:'conxPane', title:'Connections', layout:new MigLayout()) {
+			jxtaskPane(id:'conxPane', title:'Connections', layout:new MigLayout(), animated:true) {
 				scrollPane() {
 					panel(id:'conxIcons', layout: new MigLayout())
 				}
 				button(text:'Add', constraints:'newline, cell 0 1 ', actionPerformed: {view.conx.setVisible(true)})
 				button(text:'Remove', constraints:'cell 0 1', actionPerformed:{controller.removeConnection()})
 			}
-			taskPane(id:'dbPane', title:'Databases', layout:new MigLayout()) {
+			jxtaskPane(id:'dbPane', title:'Databases', layout:new MigLayout(), animated:true, expanded:false) {
 				scrollPane() {
 					panel(id:'dbIcons', layout: new MigLayout())
 				}
-				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeDB.setVisible(true)})
-				button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropDatabase()})
+				//button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeDB.setVisible(true)})
+				//button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropDatabase()})
 			}
-			taskPane(id:'collPane', title:'Collections', layout:new MigLayout()) {
+			jxtaskPane(id:'collPane', title:'Collections', layout:new MigLayout(), animated:true, expanded:false) {
 				scrollPane() {
 					panel(id:'collIcons', layout: new MigLayout())
 				}
-				button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeColl.setVisible(true)})
-				button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropCollection()})
+				//button(text:'Create', constraints:'newline, cell 0 1 ', actionPerformed: {view.makeColl.setVisible(true)})
+				//button(text:'Drop', constraints:'cell 0 1', actionPerformed:{controller.dropCollection()})
 			}
 		}
     }
-    jxtitledPanel(title:'Query Results', border:new DropShadowBorder(Color.BLACK,15), constraints:'w !, h 100%') {
+    jxtitledPanel(title:'Query Results', border:new DropShadowBorder(Color.BLACK,15), constraints:'w 70%, h 100%') {
         panel(layout:new MigLayout()) {
 	        hbox(constraints:'newline') {
 				textArea(id:'commandField', columns:40, rows:2)

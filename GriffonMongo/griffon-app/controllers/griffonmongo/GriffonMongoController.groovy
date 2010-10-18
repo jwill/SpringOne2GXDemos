@@ -51,14 +51,13 @@ class GriffonMongoController {
     def createConxWidget = { name ->
 		def btn = view.toggleButton(text:name, id:name + 'Conx',
 				verticalTextPosition:SwingConstants.BOTTOM, 
-				horizontalTextPosition:SwingConstants.CENTER, 
+				horizontalTextPosition:SwingConstants.CENTER, actionCommand:name,
 				icon:new javax.swing.ImageIcon(getClass().getResource('/computer.png')), actionPerformed:{openConx(name)})
 		model.conxBtnGroup.add(btn)
 		view.conxIcons.add(btn)
     }
     
     def createDBIcon = { name ->
-		println "creating" + name
 		def btn = view.toggleButton(text:name, id:name + 'DB',
 				verticalTextPosition:SwingConstants.BOTTOM, 
 				horizontalTextPosition:SwingConstants.CENTER, 
@@ -68,11 +67,10 @@ class GriffonMongoController {
     }
     
     def createCollIcon = { name ->
-		println "creating" + name
 		def btn = view.toggleButton(text:name, id:name + 'Coll',
 				verticalTextPosition:SwingConstants.BOTTOM, 
 				horizontalTextPosition:SwingConstants.CENTER, 
-				icon:new javax.swing.ImageIcon(getClass().getResource('/tar.png')), actionPerformed:{openDB(name)})
+				icon:new javax.swing.ImageIcon(getClass().getResource('/tar.png')))
 		model.collBtnGroup.add(btn)
 		view.collIcons.add(btn)
     }
@@ -82,6 +80,11 @@ class GriffonMongoController {
 		if (conxInfo.port != 0) {
 			model.mongo = new Mongo(conxInfo.host, conxInfo.port)
 		} else model.mongo = new Mongo(conxInfo.host)
+		populateDBs()
+    }
+    
+    def populateDBs = {
+		view.dbPane.setExpanded(false)
 		def dbNames = model.mongo.getDatabaseNames()
 		view.dbIcons.clear()
 		view.collIcons.clear()
@@ -92,11 +95,17 @@ class GriffonMongoController {
 			createDBIcon(n)
 		}
 		view.dbIcons.updateUI()
+		view.dbPane.setExpanded(true)
     }
     
     def openDB = { name ->
 		// db already open, get the collections
 		def db = model.databases.get(name)
+		populateCollections(db)
+    }
+    
+    def populateCollections = { db ->
+		view.collPane.setExpanded(false)
 		def collNames = db?.getCollectionNames()
 		view.collIcons.clear()
 		model.collections = [:]
@@ -105,22 +114,63 @@ class GriffonMongoController {
 			createCollIcon(n)
 		}
 		view.collIcons.updateUI()
+		view.collPane.setExpanded(true)
     }
     
     def addConnection = { name, host, port ->
 		// create entry for item
 		// push to json array and save
-		if (!jsonProps) {
+		def obj = new JSONObject()
+		obj.put("name", name)
+		obj.put("host", host)
+		obj.put("port",port)
 		
+		def array = model.jsonProps.getJSONArray("conx")
+		array.put([name:name, host:host, port:port])
+		model.jsonProps.put("conx", array)
+		
+		// Save file
+		def f = new File("mongo.json")
+		f.write(model.jsonProps.toString())
+		loadJSONProps()
+		
+		view.with {
+			txtName.text = ''
+			txtHost.text = ''
+			txtPort.text = ''
+			conx.setVisible(false)
 		}
+		view.conxIcons.updateUI()
     }
     
-    def removeConnection = { name ->
-    
+    // library doesn't seem to implement remove on JSONArray
+    // removing by copying
+    def removeConnection = { 
+		def btn = model.conxBtnGroup.getSelection()
+		def array2 = new JSONArray()
+		def array = model.jsonProps.getJSONArray("conx")
+		for (int i = 0; i<array.length(); i++) {
+			def obj = array.get(i);
+			println obj
+			if ( obj.getString("name").equals(btn.actionCommand) ) {
+				// do nothing
+			} else {
+				array2.put(obj)
+			}
+		}
+		model.jsonProps.put("conx", array2)
+		
+		// Save file
+		def f = new File("mongo.json")
+		f.write(model.jsonProps.toString())
+		
+		loadJSONProps()
+		view.conxIcons.updateUI()
     }
     
     def createDatabase = { dbName ->
-		
+		model.mongo.getDB(dbName)
+		populateDatabases()
     }
     
     def createCollection = { collName ->
@@ -158,9 +208,4 @@ class GriffonMongoController {
          } catch(x) {x.printStackTrace()}
       }
    }
-
-    /*
-    def action = { evt = null ->
-    }
-    */
 }
