@@ -3,7 +3,8 @@ import net.miginfocom.swing.MigLayout
 import org.jdesktop.swingx.decorator.HighlighterFactory
 
 application(title: 'WebsocketChat',
-  size: [600,500],
+  size: [1000,500],
+//  resizable:false,
   //location: [50,50],
   //pack:true,
   locationByPlatform:true,
@@ -21,15 +22,17 @@ application(title: 'WebsocketChat',
 			menuItem(text:"Exit",  actionPerformed:{System.exit(0)})
 		}
 	}
-	scrollPane(id:'screenshot', constraints:'w 700px , h 100%')
-	panel (layout:new MigLayout(), constraints:'w 200px, h 100%') {
-		scrollPane(id:'scroll', constraints:'h 90%, w 200px, wrap'){
-			jxlist(model:model.msgModel, highlighters:[HighlighterFactory.createSimpleStriping()])
+	panel(id:'screenshot', constraints:'w 700px , h 100%')
+	panel (layout:new MigLayout(), constraints:'w !, h 100%') {
+		scrollPane(id:'scroll', constraints:'h 90%, w !, wrap'){
+			jxlist(constraints:'w !', model:model.msgModel, highlighters:[HighlighterFactory.createSimpleStriping()])
 		}
-		panel (layout:new MigLayout(), constraints:'w 200px'){
-				comboBox(id:'cbox', items:['Send Message', 'Send Question'], constraints:'wrap')
+		panel (layout:new MigLayout(), constraints:'w !'){
+				comboBox(id:'cbox', items:['Send Message', 'Send Question'])
+				label('as')
+				textField(columns:10, text:bind(source:model, sourceProperty:'username', mutual:true), constraints:'wrap')
 				textArea(id:'msgText', columns:15, lineWrap:true, constraints:'wrap')
-				button(text:'Send', actionPerformed:{controller.sendMessage(msgText?.text)})
+				button(text:'Send', actionPerformed:{controller.send(msgText?.text)})
 		}
 	}
 }

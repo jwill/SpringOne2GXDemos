@@ -9,7 +9,9 @@ import ca.odell.glazedlists.swing.*
 class WebsocketChatModel {
    // @Bindable String propName
    def client
-   def endpoint = "ws://localhost:8787"
+   @Bindable String username = System.getProperty("user.name")
+   def endpoint = "ws://localhost:5555/slides"
+   //def endpoint = "184.106.138.53"
    EventList msgEventList = new BasicEventList()
    EventListModel msgModel = new EventListModel(msgEventList)
 }
